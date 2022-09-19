@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		x: {{ x }} <br/>
+		y: {{ y }}
+	</div>
+	<script type="module"> // type="module"会异步加载脚本, 并在DomcontentLoaded钩子之前执行
+	  import { createApp, reactive, onMounted, onUnmounted, toRefs } from './node_modules/vue/dist/vue.esm-browser.js'
+
+	  function useMousePosition () {
+		const position = reactive({
+			x: 0,
+			y: 0
+		})
+			  
+		const update = e => {
+			position.x = e.pageX
+			position.y = e.pageY
+		}
+
+		onMounted(()=>{
+			window.addEventListener('mousemove', update)
+		})
+		onUnmounted((()=>{
+			window.removeEventListener('mousemove', update)
+		}))
+		return toRefs(position) // 把代理对象的所有属性值转化为响应式
+	  }
+	  const app = createApp({
+		  setup () {
+			  // 第一个参数 props
+			  // 第二个参数 context attrs emit slots
+			  const { x, y } = useMousePosition() 
+			  return {
+				x, y
+			  }
+		  },
+		  mounted () {
+			this.position.x = 100
+		  }
+	  })
+	  console.log('app', app);
+	  app.mount('#app')
+	</script>
+</body>
+</html>

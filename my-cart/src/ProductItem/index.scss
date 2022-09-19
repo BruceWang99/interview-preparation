@@ -1,0 +1,28 @@
+.product-item {
+	width: 100%;
+	padding: 8px;
+	box-sizing: border-box;
+	border: 1px solid #eee;
+	&__img {
+		width: 100%;
+		height: auto;
+	}
+	&__bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		&-left {
+			width: 100px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+		&-right {
+			display: flex;
+			align-items: center;
+			span {
+				margin-right: 8px;
+			}
+		}
+	}
+}
